@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+/runs/
+/data/
+/wandb/
+*.pt
+*.pth
+jobs*.txt
+jobs*_logs/

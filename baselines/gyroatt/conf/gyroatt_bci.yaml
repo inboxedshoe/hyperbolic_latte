@@ -1,0 +1,64 @@
+# GyroAtt config for BCIC-IV-2a / 2b.
+#
+# `epochs` is the number of temporal patches fed to E2R, not a training budget.
+#
+# The optimiser is RAdam; learning rates are per dataset, see lr_per_dataset.
+
+nnet:
+  spd_mode: "LEM"          # closed-form weighted Frechet mean, no Karcher flow
+  power: 0.5
+  activation_power: 0.5
+  manifold: "SPD"          # SPD-LEM
+  spd_power: 0.25          # = power * activation_power, routed into the fuse
+
+# The SPD attention block's fuse power is `spd_power` = power * activation_power.
+
+arch:
+  in_size: 20              # covariance dimension (conv output channels)
+  p: 8                     # Grassmann subspace dim; unused when manifold == SPD
+  epochs: 3                # temporal patches for E2R, NOT training epochs
+  linear_weight: 0.2       # only used by the MAMEM-style two-branch head
+
+# ---------------------------------------------------------------------------
+# Per-dataset model and regularisation values.
+#
+# bcic2a / bcic2b / hgd have no entry.
+per_dataset:
+  mamem:
+    in_size: 21
+    p: 8
+    epochs: 2              # temporal patches
+    linear_weight: 0.2
+    wd: 1.0e-2
+    power: 0.5
+    activation_power: 0.5
+    spd_power: 0.25        # = power * activation_power
+  bcicha:
+    in_size: 19
+    p: 10                  # unused for pure SPD
+    epochs: 3
+    linear_weight: 0.01
+    wd: 5.0e-1
+    power: 0.5
+    activation_power: 0.25
+    spd_power: 0.125       # = power * activation_power
+
+optim:
+  optimizer: "radam"
+  wd: 1.0e-2
+  lr: 1.0e-3               # fallback
+  lr_per_dataset:
+    bcic2a: 1.0e-3
+    bcic2b: 1.0e-3
+    hgd:    3.0e-4
+    mamem:  3.0e-2
+    bcicha: 1.0e-2
+
+# Training budget and batch size.
+protocol:
+  bs: 48
+  iterations_ss: 210
+  iterations_sc: 200
+  iterations_loso: 125
+  # hgd LOSO budget
+  iterations_loso_hgd: 77

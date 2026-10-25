@@ -1,0 +1,23 @@
+# Dataset preprocessing, shared by every entry point (--config).
+# bcic2a and bcic2b are downloaded through MOABB/braindecode on first use.
+# bcicha is read from .mat files in data_path.
+#
+# dataset_name is set from --dataset at run time.
+dataset_name: ""
+z_scale: True
+
+preprocessing:
+  bcic2a:           # BCI Competition IV 2a (BNCI2014_001)
+    sfreq: 250
+    low_cut: null
+    high_cut: null
+    start: 0.0
+    stop: 0.0
+  bcic2b:           # BCI Competition IV 2b (BNCI2014_004)
+    sfreq: 250
+    low_cut: null
+    high_cut: null
+    start: 0.0
+    stop: -0.5
+  bcicha:           # BCI Challenge (ERN)
+    data_path: ./data/BCIcha/

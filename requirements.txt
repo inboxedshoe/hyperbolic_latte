@@ -1,0 +1,15 @@
+# Versions the release was tested with (Python 3.11).
+torch==2.10.0
+numpy==2.4.2
+scipy==1.17.0
+scikit-learn==1.7.2
+geoopt==0.5.1
+unfoldNd
+pyyaml==6.0.2
+# data loading (BCIC-IV 2a/2b, HGD are downloaded through MOABB)
+braindecode==1.3.2
+moabb==1.4.3
+mne==1.11.0
+pytorch-lightning==2.5.5
+# optional
+wandb
